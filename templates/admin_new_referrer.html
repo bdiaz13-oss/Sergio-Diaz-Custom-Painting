@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Create a referrer</h2>
+  <form method="post">
+    <label>Name:<br><input name="name" required></label><br><br>
+    <label>Neighborhood:<br><input name="neighborhood"></label><br><br>
+    <label>Code (optional - leave blank to auto-generate):<br><input name="code" placeholder="e.g., MARIAR1"></label><br><br>
+    <button type="submit">Create</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Admin dashboard</h2>
+  <p><a href="{{ url_for('admin_new_referrer') }}">Create referrer</a> • <a href="{{ url_for('admin_export_leads') }}">Export leads CSV</a> • <a href="{{ url_for('admin_logout') }}">Logout</a></p>
+
+  <h3>Referrers</h3>
+  <table style="margin-bottom:1rem;">
+    <tr><th>Created</th><th>Name</th><th>Neighborhood</th><th>Code</th><th>Balance</th><th>Credit</th></tr>
+    {% for r in referrers %}
+      <tr>
+        <td>{{ r.created_at }}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.neighborhood }}</td>
+        <td><code>{{ r.code }}</code></td>
+        <td>{{ r.reward_balance }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_credit_referrer', ref_id=r.id) }}">
+            <input name="amount" style="width:60px" value="1">
+            <button type="submit">Credit</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6" class="muted">No referrers yet.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h3 style="margin-top:1rem">Recent leads</h3>
+  <table>
+    <tr><th>Created</th><th>Name</th><th>Phone</th><th>Referrer</th><th>Project</th><th>Budget</th><th>Status</th></tr>
+    {% for l in leads %}
+      <tr>
+        <td>{{ l.created_at }}</td>
+        <td>{{ l.name }}</td>
+        <td>{{ l.phone }}</td>
+        <td>{% if l.referrer %}{{ l.referrer.name }} (<code>{{ l.referrer.code }}</code>){% else %}{{ l.referrer_name_raw or "" }}{% endif %}</td>
+        <td>{{ l.project_type }} / {{ l.rooms }}</td>
+        <td>{{ l.budget_range }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_update_lead_status', lead_id=l.id) }}">
+            <select name="status">
+              <option {% if l.status=='new' %}selected{% endif %}>new</option>
+              <option {% if l.status=='contacted' %}selected{% endif %}>contacted</option>
+              <option {% if l.status=='estimate_scheduled' %}selected{% endif %}>estimate_scheduled</option>
+              <option {% if l.status=='won' %}selected{% endif %}>won</option>
+              <option {% if l.status=='lost' %}selected{% endif %}>lost</option>
+            </select>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7" class="muted">No leads yet.</td></tr>
+    {% endfor %}
+  </table>
+{% endblock %}

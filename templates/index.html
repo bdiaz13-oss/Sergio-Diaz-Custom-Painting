@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Trusted by your neighbors</h2>
+  <p>We prioritize customers who come via personal referral. If someone recommended us, enter their code or name in the estimate form — it helps us thank them and schedule faster.</p>
+
+  <h3>Recent referrers</h3>
+  <div class="grid" style="margin-bottom:1rem;">
+    {% for r in referrers %}
+      <div class="card">
+        <strong>{{ r.name }}</strong><br>
+        <span class="small">Neighborhood: {{ r.neighborhood or "—" }}</span><br>
+        <span class="small">Code: <code>{{ r.code }}</code></span>
+      </div>
+    {% else %}
+      <div class="muted">No referrers yet — create one in the admin dashboard.</div>
+    {% endfor %}
+  </div>
+
+  <h3 style="margin-top:1rem">How referrals work</h3>
+  <ol>
+    <li>We add a short code for a past customer (or they share our number).</li>
+    <li>Referred customers include the code or referrer name in the estimate form.</li>
+    <li>Referrals are prioritized for scheduling; referrers receive a small thank-you credit when the job completes.</li>
+  </ol>
+{% endblock %}

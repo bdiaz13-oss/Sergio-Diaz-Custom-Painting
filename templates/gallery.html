@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Gallery</h2>
+  <div>
+    {% for p in photos %}
+      <div style="margin-bottom:1rem;">
+        <img src="{{ url_for('static', filename='images/' + p.file) }}" style="max-width:100%; height:auto; border:1px solid #eee; border-radius:6px;">
+        <div class="small" style="margin-top:.35rem;">{{ p.caption }}</div>
+      </div>
+    {% else %}
+      <p class="muted">No images yet. Add photos to <code>static/images/</code>.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

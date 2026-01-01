@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Request an estimate</h2>
+  <form method="post">
+    <label>Name (first + last):<br><input name="name" required></label><br><br>
+    <label>Phone:<br><input name="phone" required></label><br><br>
+    <label>Email:<br><input name="email" type="email"></label><br><br>
+
+    <label>Referral code (if any):<br><input name="referrer_code" placeholder="e.g., ABC123"></label><br>
+    <small class="small">If you were told a referrer name instead of a code, put it here: <input name="referrer_name" placeholder="e.g., Maria R."></small>
+    <br><br>
+
+    <label>Project type:<br>
+      <select name="project_type">
+        <option>Interior</option><option>Exterior</option><option>Cabinet / trim</option>
+      </select>
+    </label><br><br>
+
+    <label>Rooms or area:<br><input name="rooms" placeholder="e.g., kitchen + living room"></label><br><br>
+    <label>Budget range:<br>
+      <select name="budget_range">
+        <option>$500–$1,500</option><option>$1,500–$5,000</option><option>$5,000+</option>
+      </select>
+    </label><br><br>
+
+    <label>Preferred timeline:<br><input name="timeline" placeholder="e.g., next 2 weeks"></label><br><br>
+    <label>Notes (optional):<br><textarea name="notes" rows="4"></textarea></label><br><br>
+    <button type="submit">Submit request</button>
+  </form>
+{% endblock %}
