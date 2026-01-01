@@ -297,6 +297,11 @@ def admin_export_leads():
     csv_output = si.getvalue()
     return Response(csv_output, mimetype="text/csv", headers={"Content-Disposition": "attachment; filename=leads.csv"})
 
+@app.route("/init_db")
+def init_db():
+    db.create_all()
+    return "Database initialized!"
+
 # ---------------- Errors ----------------
 @app.errorhandler(404)
 def not_found(e):
