@@ -4,33 +4,32 @@
   <meta charset="utf-8">
   <title>{{ site_title or "Diaz Custom Painting" }}</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/lux/bootstrap.min.css">
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; max-width: 980px; margin: 0 auto; padding: 1rem; color:#222; }
-    header { border-bottom: 1px solid #eee; padding-bottom: .6rem; margin-bottom: .6rem; }
-    .cta { background:#0b6; color:white; padding:.5rem 1rem; display:inline-block; border-radius:6px; text-decoration:none;}
+    .cta { background:#0b6; color:white !important; padding:.5rem 1rem; display:inline-block; border-radius:6px; text-decoration:none; }
     .flash { padding:.6rem; margin:.6rem 0; border-radius:6px; }
     .flash.success { background:#e6ffed; border:1px solid #b7f0c6; }
     .flash.danger { background:#ffe6e6; border:1px solid #f0b7b7; }
-    footer { font-size: .9rem; color:#666; margin-top:1.2rem; }
-    .small { font-size: .9rem; color:#555; }
-    table { width:100%; border-collapse: collapse; }
-    table td, table th { border:1px solid #eee; padding:.5rem; }
     .grid { display:flex; gap:1rem; flex-wrap:wrap; }
     .card { border:1px solid #f1f1f1; padding:.6rem; border-radius:8px; background:#fafafa; width:100%; max-width:260px; box-shadow:0 1px 2px rgba(0,0,0,0.02); }
-    form input, form select, form textarea { width:100%; padding:.45rem; border:1px solid #ddd; border-radius:6px; }
-    button { padding:.45rem .7rem; border-radius:6px; border:none; background:#0b6; color:white; cursor:pointer; }
     .muted { color:#666; font-size:.9rem; }
   </style>
 </head>
 <body>
 <header>
-  <h1 style="margin:.2rem 0;">{{ site_title }}</h1>
-  <p class="small">Local, neighborhood-first painting — referrals are prioritized.</p>
-  <p style="margin-top:.6rem;">
-    <a class="cta" href="{{ url_for('request_estimate') }}">Request an Estimate</a>
-    <a style="margin-left:.6rem" href="{{ url_for('gallery') }}">Gallery</a>
-    <a style="margin-left:.6rem" href="{{ url_for('index') }}">Home</a>
-  </p>
+  <div class="container py-3">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="mb-1">{{ site_title }}</h1>
+        <p class="small mb-2">Local, neighborhood-first painting — referrals are prioritized.</p>
+      </div>
+      <div class="col-md-4 text-md-end text-center mt-2 mt-md-0">
+        <a class="btn btn-success me-2" href="{{ url_for('request_estimate') }}">Request an Estimate</a>
+        <a class="btn btn-outline-secondary me-2" href="{{ url_for('gallery') }}">Gallery</a>
+        <a class="btn btn-outline-secondary" href="{{ url_for('index') }}">Home</a>
+      </div>
+    </div>
+  </div>
 </header>
 
 {% with messages = get_flashed_messages(with_categories=true) %}

@@ -91,9 +91,8 @@ def create_unique_code():
 def require_admin():
     return session.get("is_admin", False)
 
-@app.before_first_request
-def ensure_tables():
-    db.create_all()
+
+
 
 # ---------------- Public routes ----------------
 @app.route("/")
@@ -282,7 +281,18 @@ def admin_export_leads():
     for l in leads:
         ref_code = l.referrer.code if l.referrer else ""
         notes = (l.notes or "").replace("\n", " ").replace("\r", " ")
-        line = f'{l.id},"{l.created_at.isoformat()}","{(l.name or "").replace(\'"\', \'""\')}","{(l.phone or "").replace(\'"\', \'""\')}","{(l.email or "").replace(\'"\', \'""\')}","{ref_code}","{(l.referrer_name_raw or "").replace(\'"\', \'""\')}","{(l.project_type or "").replace(\'"\', \'""\')}","{(l.rooms or "").replace(\'"\', \'""\')}","{(l.budget_range or "").replace(\'"\', \'""\')}","{(l.timeline or "").replace(\'"\', \'""\')}","{(l.status or "").replace(\'"\', \'""\')}","{notes.replace(\'"\', \'""\')}"\n'
+        name = (l.name or "").replace('"', '""')
+        phone = (l.phone or "").replace('"', '""')
+        email = (l.email or "").replace('"', '""')
+        referrer_name_raw = (l.referrer_name_raw or "").replace('"', '""')
+        project_type = (l.project_type or "").replace('"', '""')
+        rooms = (l.rooms or "").replace('"', '""')
+        budget_range = (l.budget_range or "").replace('"', '""')
+        timeline = (l.timeline or "").replace('"', '""')
+        status = (l.status or "").replace('"', '""')
+        notes_clean = notes.replace('"', '""')
+        line = f"""{l.id},"{l.created_at.isoformat()}","{name}","{phone}","{email}","{ref_code}","{referrer_name_raw}","{project_type}","{rooms}","{budget_range}","{timeline}","{status}","{notes_clean}"
+"""
         si.write(line)
     csv_output = si.getvalue()
     return Response(csv_output, mimetype="text/csv", headers={"Content-Disposition": "attachment; filename=leads.csv"})
@@ -295,4 +305,6 @@ def not_found(e):
 # ---------------- Run ----------------
 if __name__ == "__main__":
     debug = os.getenv("FLASK_DEBUG", "1") == "1"
+    with app.app_context():
+        db.create_all()
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")), debug=debug)
